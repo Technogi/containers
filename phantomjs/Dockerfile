@@ -1,5 +1,5 @@
 FROM node:10-jessie-slim AS base
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
   bash \
   ca-certificates \
   curl \
