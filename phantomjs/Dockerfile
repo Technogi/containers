@@ -1,5 +1,9 @@
 FROM node:10-jessie-slim AS base
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN echo "deb http://httpredir.debian.org/debian jessie main contrib" > /etc/apt/sources.list \
+  && echo "deb http://security.debian.org/ jessie/updates main contrib" >> /etc/apt/sources.list \
+  && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
   bash \
   ca-certificates \
   curl \
@@ -10,9 +14,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   openssh-server \
   git \
   fontconfig \
-  build-essential chrpath libssl-dev libxft-dev \
-  && apt-get install -y libfreetype6 libfreetype6-dev \
-  && apt-get install -y libfontconfig1 libfontconfig1-dev
+  build-essential \
+  chrpath \
+  libssl-dev \
+  libxft-dev \
+  libfreetype6 \
+  libfreetype6-dev \
+  libfontconfig1 \
+  libfontconfig1-dev \
+  ttf-mscorefonts-installer
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
