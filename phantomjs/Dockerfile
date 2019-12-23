@@ -2,6 +2,8 @@ FROM node:10-jessie-slim AS base
 RUN echo "deb http://httpredir.debian.org/debian jessie main contrib" > /etc/apt/sources.list \
   && echo "deb http://security.debian.org/ jessie/updates main contrib" >> /etc/apt/sources.list \
   && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
+  && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
   bash \
@@ -22,7 +24,8 @@ RUN echo "deb http://httpredir.debian.org/debian jessie main contrib" > /etc/apt
   libfreetype6-dev \
   libfontconfig1 \
   libfontconfig1-dev \
-  ttf-mscorefonts-installer
+  ttf-mscorefonts-installer \
+  google-chrome-unstable
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
